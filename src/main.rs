@@ -2,7 +2,9 @@ use std::fs;
 
 fn main() {
     //Represents the number of pairs where one range is fully within the other
-    let mut _count = 0;
+    //let mut _count = 0;
+
+    let mut _any_overlap: i32 = 0;
 
     let file_path = "day4_puzzle.txt";
 
@@ -14,21 +16,37 @@ fn main() {
         .map(|x| x.parse::<i32>().expect("Expected an i32"))
         .collect();
         
-        if check_range(ends) {
+        /*if check_range(ends) {
             _count += 1;
+        }*/
+
+        if check_any_overlap(ends) {
+            _any_overlap += 1;
         }
     }
 
-    println!("The count is: {_count}");
+    //println!("The count is: {_count}");
+    println!("The 'any overlap' count is: {_any_overlap}");
 }
 
 fn check_range(r: Vec<i32>) -> bool {
     let a1 = r.get(0);
-    let a2 =  r.get(1);
+    let a2 = r.get(1);
     let b1 = r.get(2);
     let b2 = r.get(3);
 
     let result = (a1 <= b1 && a2 >= b2) || (b1 <= a1 && b2 >= a2);
     
+    result
+}
+
+fn check_any_overlap(r: Vec<i32>) -> bool {
+    let a1 = r.get(0);
+    let a2 = r.get(1);
+    let b1 = r.get(2);
+    let b2 = r.get(3);
+
+    let result = (a1 <= b1 && b1 <= a2) || (b1 <= a1 && a1 <= b2);
+
     result
 }
